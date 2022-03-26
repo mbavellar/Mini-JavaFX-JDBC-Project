@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox prefHeight="215.0" prefWidth="343.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/17">
+   <children>
+      <Label alignment="CENTER" prefHeight="58.0" prefWidth="344.0" text="About" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="28.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="66.0" prefWidth="342.0" text="JavaFX App - Maurício Avellar">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</VBox>
