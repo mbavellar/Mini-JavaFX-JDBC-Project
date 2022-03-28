@@ -1,13 +1,11 @@
 package gui;
 
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -16,7 +14,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import model.entities.Department;
-import model.services.DepartmentService;
 
 public class DepartmentListController implements Initializable {
   
@@ -51,10 +48,7 @@ public class DepartmentListController implements Initializable {
     tableViewDepartment.prefWidthProperty().bind(stage.maxWidthProperty());
   }
   
-  public void updateTableView(DepartmentService departmentService) {
-    if (departmentService == null)
-      throw new IllegalStateException("Service CANNOT be null");
-    
-    tableViewDepartment.setItems(FXCollections.observableArrayList(departmentService.findAll()));
+  public void updateTableView(List<Department> departments) {
+    tableViewDepartment.setItems(FXCollections.observableArrayList(departments));
   }
 }
