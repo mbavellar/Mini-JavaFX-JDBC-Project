@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox minWidth="800" minHeight="600" maxHeight="Infinity" maxWidth="Infinity" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DepartmentListController">
+   <children>
+      <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="Infinity" maxWidth="Infinity" text="Department Registration" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <ToolBar maxHeight="Infinity" maxWidth="Infinity">
+        <items>
+          <Button fx:id="btnNewDepartment" mnemonicParsing="false" onAction="#onBtnNewDepartment" text="New Department">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+        </items>
+      </ToolBar>
+      <TableView fx:id="tableViewDepartment" prefHeight="200.0" prefWidth="200.0">
+        <columns>
+          <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="tableColumnName" prefWidth="338.0" text="Name" />
+        </columns>
+      </TableView>
+   </children>
+</VBox>
