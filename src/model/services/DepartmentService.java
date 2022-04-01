@@ -4,11 +4,29 @@ import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.DepartmentDao;
+import model.dao.SqlDepartmentQuery;
 import model.entities.Department;
 
 public class DepartmentService {
+  
+  private final static String DEPARTMENT = "department";
 
-  public static List<Department> findAll() {
-    return DaoFactory.createDao(DepartmentDao.class).findAll(null, null);
+  private DepartmentDao dao = DaoFactory.createDao(DepartmentDao.class);
+  
+  public List<Department> findAll() {
+    return dao.findAll(null, null);
+  }
+  
+  public void saveOrUpdate(Department obj) {
+    if (obj.getId() == null) {
+      dao.insert(obj, null);
+    }
+    else {
+      dao.update(obj, null);
+    } 
+  }
+  
+  public Integer findAutoIncrement() {
+    return dao.findAutoIncrement(SqlDepartmentQuery.findNextAutoIncrement(DEPARTMENT), null);
   }
 }

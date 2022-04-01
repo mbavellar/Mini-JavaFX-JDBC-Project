@@ -20,6 +20,7 @@ import javafx.scene.control.ScrollPane;
 
 public class MainViewController implements Initializable{
 
+  private DepartmentService service;
 	@FXML
 	private MenuItem menuItemSeller;
 	@FXML
@@ -34,8 +35,8 @@ public class MainViewController implements Initializable{
 	
 	@FXML
 	public void onMenuItemDepartmentAction() {
-		loadView("/gui/DepartmentList.fxml",
-		  (DepartmentListController controller) -> controller.updateTableView(DepartmentService.findAll()));
+	  loadView("/gui/DepartmentList.fxml",
+	  (DepartmentListController controller) -> controller.updateTableView(service.findAll())); 
 	}
 	
 	@FXML
@@ -45,8 +46,7 @@ public class MainViewController implements Initializable{
 	
 	@Override
 	public void initialize(URL uri, ResourceBundle resourceBundle) {
-		
-		
+		service = new DepartmentService();
 	}
 
 	private synchronized <T> void loadView(String absolutePath, Consumer<T> initializaingAction) {
@@ -54,6 +54,7 @@ public class MainViewController implements Initializable{
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absolutePath));
 			VBox newVBox = loader.load();
+			
 			Scene mainScene = Main.getMainScene();
 			VBox mainVBox = (VBox)((ScrollPane)mainScene.getRoot()).getContent();
 			

@@ -2,6 +2,7 @@ package model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import db.DB;
@@ -20,8 +21,23 @@ public abstract class BaseDao<T> implements Dao<T> {
       preSt.setInt(ParameterIndex.ONE, id);
       preSt.executeUpdate();
     }
-    catch (SQLException sqle) {
-      throw new DBException(sqle.getMessage());
+    catch (SQLException e) {
+      throw new DBException(e.getMessage());
+    }
+    finally {
+      DB.closeStatement(preSt);
+    }
+  }
+  
+  public Integer findAutoIncrement(final String query, PreparedStatement preSt) {
+    try {
+      preSt = conn.prepareStatement(query);
+      ResultSet indexes = preSt.executeQuery();
+      if (indexes.next()) return indexes.getInt(1);
+      return null;
+    }
+    catch (SQLException e) {
+      throw new DBException(e.getMessage());
     }
     finally {
       DB.closeStatement(preSt);

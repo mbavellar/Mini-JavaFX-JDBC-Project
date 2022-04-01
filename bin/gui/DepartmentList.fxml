@@ -17,7 +17,7 @@
       </Label>
       <ToolBar maxHeight="Infinity" maxWidth="Infinity">
         <items>
-          <Button fx:id="btnNewDepartment" mnemonicParsing="false" onAction="#onBtnNewDepartment" text="New Department">
+          <Button fx:id="btnNewDepartment" mnemonicParsing="false" onAction="#onBtnNewDepartmentAction" text="New Department">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
