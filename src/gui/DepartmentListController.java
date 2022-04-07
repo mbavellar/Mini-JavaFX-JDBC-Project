@@ -2,10 +2,10 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import application.Main;
+import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.collections.FXCollections;
@@ -23,8 +23,11 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Department;
+import model.services.DepartmentService;
 
-public class DepartmentListController implements Initializable {
+public class DepartmentListController implements Initializable, DataChangeListener {
+  
+  private DepartmentService service;
   
   @FXML
   private TableView<Department> tableViewDepartment;
@@ -46,6 +49,7 @@ public class DepartmentListController implements Initializable {
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
+    service = new DepartmentService();
     initializaNodes();
   }
 
@@ -58,8 +62,8 @@ public class DepartmentListController implements Initializable {
     tableViewDepartment.prefWidthProperty().bind(stage.maxWidthProperty());
   }
   
-  public void updateTableView(List<Department> departments) {
-    tableViewDepartment.setItems(FXCollections.observableArrayList(departments));
+  public void updateTableView() {
+    tableViewDepartment.setItems(FXCollections.observableArrayList(service.findAll()));
   }
   
   private void createDialogForm(Department entity, String absoluteName, Stage parentStage) {
@@ -68,6 +72,7 @@ public class DepartmentListController implements Initializable {
       Pane pane = loader.load();
       
       DepartmentFormController controller = loader.getController();
+      controller.subscribeDataChangeListener(this);
       controller.updateFormData(entity);
       
       Stage departmentFormStage = new Stage();      
@@ -80,5 +85,10 @@ public class DepartmentListController implements Initializable {
     } catch (IOException e) {
       Alerts.showAlert("ERROR", "Could NOT load Add Department!", e.getMessage(), AlertType.ERROR);
     }
+  }
+
+  @Override
+  public void onDataChange() {
+    updateTableView();    
   }
 }

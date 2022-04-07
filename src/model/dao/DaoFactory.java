@@ -9,7 +9,7 @@ public class DaoFactory {
       return daoClass.getDeclaredConstructor().newInstance();
     } catch (InstantiationException | IllegalAccessException |
       NoSuchMethodException | InvocationTargetException e) {
-      e.printStackTrace();
+      System.out.println(e.getCause().getMessage());
     }
     return null;
   }

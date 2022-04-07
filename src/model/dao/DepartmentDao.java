@@ -92,7 +92,7 @@ public class DepartmentDao extends BaseDao<Department> {
     }
   }
   
-  private Department getDepartment(ResultSet rs) throws SQLException {
+  private static Department getDepartment(final ResultSet rs) throws SQLException {
     return new Department(
       rs.getInt(DEPARTMENT_COLUMNS.Id.name()),
       rs.getString(DEPARTMENT_COLUMNS.Name.name()));
