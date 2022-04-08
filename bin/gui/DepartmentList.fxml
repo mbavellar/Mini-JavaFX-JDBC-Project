@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox minWidth="800" minHeight="600" maxHeight="Infinity" maxWidth="Infinity" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DepartmentListController">
+<VBox maxHeight="Infinity" maxWidth="Infinity" minHeight="600" minWidth="800" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.DepartmentListController">
    <children>
       <Label alignment="CENTER" contentDisplay="CENTER" maxHeight="Infinity" maxWidth="Infinity" text="Department Registration" textAlignment="CENTER">
          <font>
@@ -28,6 +28,7 @@
         <columns>
           <TableColumn fx:id="tableColumnId" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="tableColumnName" prefWidth="338.0" text="Name" />
+            <TableColumn fx:id="tableColumnEdit" prefWidth="75.0" text="Action" />
         </columns>
       </TableView>
    </children>
