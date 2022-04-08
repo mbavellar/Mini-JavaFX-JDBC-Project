@@ -26,6 +26,10 @@ public class DepartmentService {
     } 
   }
   
+  public void remove(Department obj) {
+    dao.deleteById(obj.getId(), SqlDepartmentQuery.DELETE_DEPARTMENT_BY_ID, null);
+  }
+  
   public Integer findAutoIncrement() {
     return dao.findAutoIncrement(SqlDepartmentQuery.findNextAutoIncrement(DEPARTMENT), null);
   }
