@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import application.Main;
 import gui.util.Alerts;
+import gui.util.URI;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -28,13 +29,12 @@ public class MainViewController implements Initializable{
 		
 	@FXML
 	public void onMenuItemSellerAction() {
-		System.out.println("Seller");
+		loadView(URI.SELLER_LIST, SellerListController::updateTableView);
 	}
-	
+
 	@FXML
 	public void onMenuItemDepartmentAction() {
-	  loadView("/gui/DepartmentList.fxml",
-	  (DepartmentListController controller) -> controller.updateTableView()); 
+	  loadView(URI.DEPARTMENT_LIST, DepartmentListController::updateTableView); 
 	}
 	
 	@FXML

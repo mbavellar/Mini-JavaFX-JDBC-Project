@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-
 import application.Main;
-import gui.listeners.DataChangeListener;
+import db.DBException;
 import gui.util.Alerts;
 import gui.util.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -14,7 +13,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -30,7 +28,7 @@ import javafx.util.Callback;
 import model.entities.Department;
 import model.services.DepartmentService;
 
-public class DepartmentListController implements Initializable, DataChangeListener {
+public class DepartmentListController extends ListController {
   
   private DepartmentService service;
   
@@ -138,8 +136,12 @@ public class DepartmentListController implements Initializable, DataChangeListen
   private void removeEntity(Department obj) {
     Optional<ButtonType> result =  Alerts.showConfirmationDialog("Confirmation!", "Are you sure?");
     if (result.get() == ButtonType.OK) {
-      service.remove(obj);
-      updateTableView();
+      try {
+        service.remove(obj);
+        updateTableView();
+      } catch (DBException e) {
+        Alerts.showAlert("Error", "Couldn't remove Department!", "Department is assigned to one or more Sellers!", AlertType.ERROR);
+      }
     }
   }
 }
