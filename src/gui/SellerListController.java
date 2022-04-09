@@ -2,11 +2,13 @@ package gui;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import application.Main;
 import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
+import gui.util.URI;
 import gui.util.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -43,6 +45,15 @@ public class SellerListController extends ListController {
   private TableColumn<Seller, String> tableColumnName;
   
   @FXML
+  private TableColumn<Seller, String> tableColumnEmail;
+  
+  @FXML
+  private TableColumn<Seller, Date> tableColumnBirthDate;
+  
+  @FXML
+  private TableColumn<Seller, Double> tableColumnBaseSalary;
+  
+  @FXML
   private TableColumn<Seller, Seller> tableColumnEdit;
   
   @FXML
@@ -54,7 +65,7 @@ public class SellerListController extends ListController {
   @FXML
   public void onBtnNewSellerAction(ActionEvent e) {
     Seller entity = new Seller();
-    createDialogForm(entity, "/gui/SellerForm.fxml", Utils.currentStage(e));
+    createDialogForm(entity, URI.SELLER_FORM, Utils.currentStage(e));
   }
 
   @Override
@@ -66,6 +77,11 @@ public class SellerListController extends ListController {
   private void initializaNodes() {
     tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
     tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+    tableColumnEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
+    tableColumnBirthDate.setCellValueFactory(new PropertyValueFactory<>("birthDate"));
+    Utils.formatTableColumnDate(tableColumnBirthDate, "dd/MM/yyyy");
+    tableColumnBaseSalary.setCellValueFactory(new PropertyValueFactory<>("baseSalary"));
+    Utils.formatTableColumnDouble(tableColumnBaseSalary, 2);
     
     Stage stage = (Stage) Main.getMainScene().getWindow();
     tableViewSeller.prefHeightProperty().bind(stage.heightProperty());
@@ -109,8 +125,7 @@ public class SellerListController extends ListController {
     tableColumn.setCellFactory(generateButtons(buttonText));
   }
 
-  private Callback<TableColumn<Seller, Seller>, TableCell<Seller, Seller>> generateButtons(
-      String buttonText) {
+  private Callback<TableColumn<Seller, Seller>, TableCell<Seller, Seller>> generateButtons(String buttonText) {
     return param -> new TableCell<Seller, Seller>() {
 
       private final Button button = new Button(buttonText);
@@ -126,7 +141,7 @@ public class SellerListController extends ListController {
         
         if (buttonText == "Edit")
           button.setOnAction(
-            event -> createDialogForm(obj, "/gui/SellerForm.fxml", Utils.currentStage(event)));
+            event -> createDialogForm(obj, URI.SELLER_FORM, Utils.currentStage(event)));
         if (buttonText == "Delete")
           button.setOnAction(
               event -> removeEntity(obj));

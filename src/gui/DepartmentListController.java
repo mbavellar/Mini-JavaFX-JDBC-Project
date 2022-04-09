@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 import application.Main;
 import db.DBException;
 import gui.util.Alerts;
+import gui.util.URI;
 import gui.util.Utils;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -53,7 +54,7 @@ public class DepartmentListController extends ListController {
   @FXML
   public void onBtnNewDepartmentAction(ActionEvent e) {
     Department entity = new Department();
-    createDialogForm(entity, "/gui/DepartmentForm.fxml", Utils.currentStage(e));
+    createDialogForm(entity, URI.DEPARTMENT_FORM, Utils.currentStage(e));
   }
 
   @Override
@@ -125,7 +126,7 @@ public class DepartmentListController extends ListController {
         
         if (buttonText == "Edit")
           button.setOnAction(
-            event -> createDialogForm(obj, "/gui/DepartmentForm.fxml", Utils.currentStage(event)));
+            event -> createDialogForm(obj, URI.DEPARTMENT_FORM, Utils.currentStage(event)));
         if (buttonText == "Delete")
           button.setOnAction(
               event -> removeEntity(obj));
