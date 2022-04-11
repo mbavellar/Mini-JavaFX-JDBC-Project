@@ -95,24 +95,24 @@ public class SellerListController extends ListController {
   }
   
   private void createDialogForm(Seller entity, String absoluteName, Stage parentStage) {
-//    try {
-//      FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-//      Pane pane = loader.load();
-//      
-//      SellerFormController controller = loader.getController();
-//      controller.subscribeDataChangeListener(this);
-//      controller.updateFormData(entity);
-//      
-//      Stage departmentFormStage = new Stage();      
-//      departmentFormStage.setTitle("Enter Seller Data:");
-//      departmentFormStage.setScene(new Scene(pane));
-//      departmentFormStage.setResizable(false);
-//      departmentFormStage.initOwner(parentStage);
-//      departmentFormStage.initModality(Modality.WINDOW_MODAL);
-//      departmentFormStage.showAndWait();
-//    } catch (IOException e) {
-//      Alerts.showAlert("ERROR", "Could NOT load Add Seller!", e.getMessage(), AlertType.ERROR);
-//    }
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+      Pane pane = loader.load();
+      
+      SellerFormController controller = loader.getController();
+      controller.subscribeDataChangeListener(this);
+      controller.updateFormData(entity);
+      
+      Stage departmentFormStage = new Stage();      
+      departmentFormStage.setTitle("Enter Seller Data:");
+      departmentFormStage.setScene(new Scene(pane));
+      departmentFormStage.setResizable(false);
+      departmentFormStage.initOwner(parentStage);
+      departmentFormStage.initModality(Modality.WINDOW_MODAL);
+      departmentFormStage.showAndWait();
+    } catch (IOException e) {
+      Alerts.showAlert("ERROR", "Could NOT load Add Seller!", e.getMessage(), AlertType.ERROR);
+    }
   }
 
   @Override
