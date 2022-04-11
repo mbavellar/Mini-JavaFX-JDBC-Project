@@ -1,9 +1,12 @@
 package gui;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -48,7 +51,19 @@ public class SellerFormController implements Initializable{
   private TextField textFieldBaseSalary;
   
   @FXML
-  private Label lblError;
+  private Label lblErrorName;
+  
+  @FXML
+  private Label lblErrorEmail;
+  
+  @FXML
+  private Label lblErrorBirthDate;
+  
+  @FXML
+  private Label lblErrorBaseSalary;
+  
+  @FXML
+  private Label lblErrorDepartment;
   
   @FXML
   private Button btnSave;
@@ -106,7 +121,11 @@ public class SellerFormController implements Initializable{
   public void initialize(URL url, ResourceBundle resourceBundle) {
     service = new SellerService();
     Constraints.setTextFieldInteger(textFieldId);
-    Constraints.setTextFieldMaxLenght(textFieldName, 30);
+    Constraints.setTextFieldMaxLenght(textFieldName, 40);
+    Constraints.setTextFieldDouble(textFieldBaseSalary);
+    Constraints.setTextFieldMaxLenght(textFieldEmail, 40);
+    Utils.formatDatePicker(datePickerBirthDate, "dd/MM/yyyy");
+    
     //textFieldId.setText(String.valueOf(service.findAutoIncrement()));
     dataChangeListeners = new ArrayList<>();
   }
@@ -115,12 +134,18 @@ public class SellerFormController implements Initializable{
     if (entity == null) throw new IllegalStateException("Entity is null");
     textFieldId.setText(String.valueOf(entity.getId()));
     textFieldName.setText(entity.getName());
+    textFieldEmail.setText(entity.getEmail());
+    Locale.setDefault(Locale.US);
+    textFieldBaseSalary.setText(String.format("%.2f", entity.getBaseSalary()));
+    if (entity.getBirthDate() != null)
+      datePickerBirthDate.setValue(
+        LocalDate.ofInstant(entity.getBirthDate().toInstant(), ZoneId.systemDefault()));
   }
   
   private void setErrorMessage(Map<String, String> errors, String textField) {
     
     Set<String> controls = errors.keySet();
     if (controls.contains(textField))
-      lblError.setText(errors.get(textField));
+      lblErrorName.setText(errors.get(textField));
   }
 }

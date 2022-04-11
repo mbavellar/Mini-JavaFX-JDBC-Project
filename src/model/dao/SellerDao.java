@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +68,7 @@ public class SellerDao extends BaseDao<Seller> {
       rs.getInt(SELLER_COLUMNS.Id.name()),
       rs.getString(SELLER_COLUMNS.Name.name()),
       rs.getString(SELLER_COLUMNS.Email.name()),
-      rs.getDate(SELLER_COLUMNS.BirthDate.name()),
+      new Date(rs.getTimestamp(SELLER_COLUMNS.BirthDate.name()).getTime()),
       rs.getDouble(SELLER_COLUMNS.BaseSalary.name()),
       department);
   }
