@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import application.Main;
-import gui.listeners.DataChangeListener;
 import gui.util.Alerts;
 import gui.util.URI;
 import gui.util.Utils;
@@ -15,7 +14,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -29,6 +27,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import model.entities.Seller;
+import model.services.DepartmentService;
 import model.services.SellerService;
 
 public class SellerListController extends ListController {
@@ -100,6 +99,7 @@ public class SellerListController extends ListController {
       Pane pane = loader.load();
       
       SellerFormController controller = loader.getController();
+      controller.loadAssociatedDependancies(new DepartmentService());
       controller.subscribeDataChangeListener(this);
       controller.updateFormData(entity);
       
