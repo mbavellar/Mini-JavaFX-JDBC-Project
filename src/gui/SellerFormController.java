@@ -1,6 +1,7 @@
 package gui;
 
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -91,11 +92,12 @@ public class SellerFormController implements Initializable{
   public void onBtnSaveAction(ActionEvent e) {
     try {
       service.saveOrUpdate(getFormData());
+      System.out.println("Save Button!");
       notifyDataChangeListener();
       close(e);
     }
     catch(ValidationException ve) {
-      setErrorMessage(ve.getErrors(), textFieldName.getId());
+      setErrorMessage(ve.getErrors());
     }
     catch (DBException dbe) {
       Alerts.showAlert("ERROR", "Error saving Seller!", dbe.getMessage(), AlertType.ERROR);
@@ -119,14 +121,30 @@ public class SellerFormController implements Initializable{
   
   
   private Seller getFormData() {
-    String departmentName = textFieldName.getText();
-    ValidationException exception = new ValidationException();
-    if (departmentName == null || departmentName.trim().equals(""))
-      exception.addError(textFieldName.getId(), "Field 'Seller' cannot be empty!");
+    
+    validateTextFields(new ValidationException());
+    Date date = Date.from(Instant.from(datePickerBirthDate.getValue().atStartOfDay(ZoneId.systemDefault())));
+    
+    return new Seller(
+        Utils.tryParseToInt(textFieldId.getText()),
+        textFieldName.getText(),
+        textFieldEmail.getText(),
+        date,
+        Utils.tryParseToDouble(textFieldBaseSalary.getText()),
+        comboBoxDepartments.getSelectionModel().getSelectedItem());
+  }
+
+  private void validateTextFields(ValidationException exception) {
+    if (textFieldName.getText() == null || textFieldName.getText().trim().equals(""))
+      exception.addError(textFieldName.getId(), "Field 'Name' cannot be empty!");
+    if (textFieldEmail.getText() == null || textFieldEmail.getText().trim().equals(""))
+      exception.addError(textFieldEmail.getId(), "Field 'E-mail' cannot be empty!");
+    if (textFieldBaseSalary.getText() == null || textFieldBaseSalary.getText().trim().equals(""))
+      exception.addError(textFieldBaseSalary.getId(), "Field 'Base Salary' cannot be empty!");
+    if (datePickerBirthDate.getValue() == null)
+      exception.addError(datePickerBirthDate.getId(), "Date cannot be empty!");
     if (exception.getErrors().size() > 0)
       throw exception;
-    return new Seller(Utils.tryParseToInt(textFieldId.getText()), textFieldName.getText(),
-      textFieldEmail.getText(), new Date(), Double.parseDouble(textFieldBaseSalary.getText()), new Department());
   }
 
   @Override
@@ -164,11 +182,14 @@ public class SellerFormController implements Initializable{
     comboBoxDepartments.setItems(obsDepartmentList);
   }
   
-  private void setErrorMessage(Map<String, String> errors, String textField) {
+  private void setErrorMessage(Map<String, String> errors) {
     
-    Set<String> controls = errors.keySet();
-    if (controls.contains(textField))
-      lblErrorName.setText(errors.get(textField));
+    Set<String> keys = errors.keySet();
+    
+    lblErrorName.setText(keys.contains(textFieldName.getId()) ? errors.get(textFieldName.getId()) : "");
+    lblErrorEmail.setText(keys.contains(textFieldEmail.getId()) ? errors.get(textFieldEmail.getId()) : "");
+    lblErrorBaseSalary.setText(keys.contains(textFieldBaseSalary.getId())? errors.get(textFieldBaseSalary.getId()) : "");
+    lblErrorBirthDate.setText(keys.contains(datePickerBirthDate.getId()) ? errors.get(datePickerBirthDate.getId()) : "");
   }
   
   private void initializeComboBoxDepartment() {
